@@ -1,0 +1,38 @@
+@use '../../style' as s;
+
+.field {
+	display: flex;
+	flex-direction: column;
+	gap: s.space(2);
+
+	&__label {
+		font-size: 14px;
+		color: s.color('gray');
+	}
+
+	&__input {
+		padding: s.space(4);
+		border: 1px solid s.color('box');
+		border-radius: 10px;
+		font-size: 14px;
+		color: s.color('dark');
+		background-color: s.color('box');
+		transition: border-color 0.2s ease-in-out;
+
+		&::placeholder {
+			color: s.color('light');
+		}
+		transition: border-color 0.2s ease-in-out;
+
+		&:focus {
+			border-color: s.color('main');
+		}
+		&:hover {
+			border-color: s.color('gray');
+		}
+
+		&--error {
+			border-color: s.color('red') !important;
+		}
+	}
+}
