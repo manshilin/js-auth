@@ -2,6 +2,14 @@ const express  = require('express');
 const router = express.Router();
 const { User } = require('../class/user');
 
+User.create(
+    {
+        email: 'qwerty@gmail.com',
+        password: 'qwerty',
+        role: 1,
+    }
+)
+
 router.get('/signup', function(req,res) {
     res.render('signup',
     {
@@ -16,6 +24,23 @@ router.get('/signup', function(req,res) {
             ]
         },
     })
+})
+
+router.post('/signup', function(req,res) {
+    const { email, password, role } = req.body;
+    console.log(req.body);
+    if(!email || !password || !role) {
+        return res.status(400).json({ message: 'Помилка! Введіть всі дані' });
+        
+    }
+    try {
+        User.create({ email, password, role})
+
+        return res.status(200).json({message: 'Ви успішно зареєстровані'});
+        
+    } catch (error) {
+        return res.status(400).json({ message: 'Помилка створення користувача' })
+    }
 })
 
 module.exports = router;
