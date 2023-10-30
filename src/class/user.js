@@ -6,8 +6,8 @@ class User {
       DEVELOPER: 3,
     };
   
-    constructor(email, password, role) {
-      this.email = email;
+    constructor({ email, password, role }) {
+      this.email = String(email).toLowerCase();
       this.password = password;
       this.role = User.#convertrole(role);
     }

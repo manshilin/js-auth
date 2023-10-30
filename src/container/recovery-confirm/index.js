@@ -1,34 +1,31 @@
-import { Form, REG_EXP_EMAIL, REG_EXP_PASSWORD } from "../../script/form"
-class SignupForm extends Form {
+import { Form, REG_EXP_PASSWORD } from "../../script/form"
+
+
+class RecoveryConfirmForm extends Form {
+
   FIELD_NAME = {
-  EMAIL: 'email',
-  PASSWORD: 'password',
-  PASSWORD_AGAIN: 'passwordAgain',
-  ROLE: 'role',
-  IS_CONFIRM: 'isConfirm',
-  }
+    CODE: 'code',
+    PASSWORD: 'password',
+    PASSWORD_AGAIN: 'passwordAgain',
+
+  };
+
   FIELD_ERROR = {
-    IS_EMPTY: 'is_empty',
-    IS_BIG: 'Дуже довге значення, преберіть зайве',
-    EMAIL: 'Невірний формат email',
-    PASSWORD: 'Пароль має містити не менше 8 символів',
+    IS_EMPTY: 'Поле не може бути порожнім',
+    IS_BIG: 'Занадто довге значення, будь ласка, скоротіть',
+    PASSWORD: 'Пароль має містити не менше 8 символів і містити цифри, маленькі та великі літери',
     PASSWORD_AGAIN: 'Паролі не співпадають',
-    NOT_CONFIRM: 'Ви не підтвердили умови',
-    ROLE: 'Ви не обрали роль',
-  }
+   
+  };
 
   validate = (name, value) => {
-    if (String(value).length <1) {
+    if (String(value).length < 1) {
       return this.FIELD_ERROR.IS_EMPTY
     }
     if (String(value).length > 20) {
       return this.FIELD_ERROR.IS_BIG
     }
-    if (name === this.FIELD_NAME.EMAIL) {
-      if (!REG_EXP_EMAIL.test(String(value))) {
-        return this.FIELD_ERROR.EMAIL
-      }
-    }
+
     if (name === this.FIELD_NAME.PASSWORD) {
       if (!REG_EXP_PASSWORD.test(String(value))) {
         return this.FIELD_ERROR.PASSWORD
@@ -39,16 +36,6 @@ class SignupForm extends Form {
         return this.FIELD_ERROR.PASSWORD_AGAIN
       }
     }
-    if (name === this.FIELD_NAME.IS_CONFIRM) {
-      if ( Boolean(value) !== true) {
-        return this.FIELD_ERROR.NOT_CONFIRM
-      }
-    }
-    if (name === this.FIELD_NAME.ROLE) {
-      if (isNaN(value)) {
-        return this.FIELD_ERROR.ROLE
-      }
-    }
   }
   submit = async () => {
     if (this.disabled === true) {
@@ -57,7 +44,7 @@ class SignupForm extends Form {
       this.setAlert('progress', 'Зачекайте, дані відправляються...');
     }
     try {
-      const res = await fetch('/signup', {
+      const res = await fetch('/recovery-confirm', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -79,13 +66,12 @@ class SignupForm extends Form {
   convertData = () => {
     return JSON.stringify(
       {
-        [this.FIELD_NAME.EMAIL]: this.value[this.FIELD_NAME.EMAIL],
+        [this.FIELD_NAME.CODE]: Number (this.value[this.FIELD_NAME.CODE],),
         [this.FIELD_NAME.PASSWORD]: this.value[this.FIELD_NAME.PASSWORD],
-        [this.FIELD_NAME.ROLE]: this.value[this.FIELD_NAME.ROLE],
-
       }
     )
   }
 }
 
-window.signupForm = new SignupForm()
+
+window.recoveryConfirmForm = new RecoveryConfirmForm()
