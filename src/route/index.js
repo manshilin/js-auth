@@ -40,9 +40,11 @@ router.get('/home', function (req, res) {
 
 // Імпортуємо роутер "auth" з файлу "auth.js"
 const auth = require('./auth');
+const user = require('./user');
 
 // Підключаємо роутер "auth" до поточного маршруту
 router.use('/', auth);
+router.use('/', user)
 
 // Ви можете використовувати інші файли роутів, якщо вони є
 
